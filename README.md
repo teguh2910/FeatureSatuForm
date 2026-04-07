@@ -63,3 +63,15 @@ composer update teguh/feature-satu-form
 - Package auto-discovery provider:
   `Teguh\\FeatureSatuForm\\FeatureSatuFormServiceProvider`
 - Keep package changes in this repository only (do not edit `vendor/teguh/feature-satu-form` directly).
+
+## Developer Workflow (Package-Only Access)
+
+If a developer only has access to this package repository (without the confidential main app), use the local example playground:
+
+1. Open folder `example-app`.
+2. Run `setup.ps1`.
+3. Edit package code in this repository.
+4. Validate package behavior using `example-app/app`.
+5. Commit and open PR in this package repo.
+
+See full guide in `example-app/README.md`.
