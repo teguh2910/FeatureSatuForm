@@ -14,23 +14,24 @@ This folder helps developers work on FeatureSatuForm without cloning the confide
    cd app
 
 4. The script will automatically:
-   - start Docker containers for nginx and sqlserver
-   - configure .env to use sqlsrv on localhost:14330 with user sa
+   - build PHP-FPM image (with sqlsrv/pdo_sqlsrv)
+   - start Docker containers for php, nginx, and sqlserver
+   - configure .env to use sqlsrv on host sqlserver:1433
 
 5. Run migrations:
 
-   php artisan migrate
+   docker compose exec php php artisan migrate
 
 6. Run app:
 
-   php artisan serve
+   open http://localhost:18080
 
 ## What setup.ps1 does
 
 - Creates a clean Laravel 10 app in example-app/app
 - Adds local package repository (path to this package root)
 - Requires teguh/feature-satu-form in the example app
-- Creates docker-compose.yml (nginx + sqlserver) if missing
+- Creates docker-compose.yml (php + nginx + sqlserver)
 - Runs docker compose up -d automatically
 - Sets Laravel DB_* values in .env for SQL Server container
 - Generates APP_KEY
@@ -46,6 +47,16 @@ This folder helps developers work on FeatureSatuForm without cloning the confide
    powershell -ExecutionPolicy Bypass -File setup.ps1 -NginxPort 8081 -SqlPort 14330
 
 Default ports: nginx 18080, sqlserver 14330.
+
+Useful commands:
+
+- Start services:
+
+   docker compose up -d
+
+- Run Artisan from container:
+
+   docker compose exec php php artisan <command>
 
 ## Notes
 
