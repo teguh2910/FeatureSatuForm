@@ -65,6 +65,7 @@ This folder helps developers work on FeatureSatuForm without cloning the confide
 - Creates a clean Laravel 10 app in example-app/app
 - Adds local package repository (path to this package root)
 - Requires teguh/feature-satu-form in the example app
+- Uses Composer path symlink mode so package source changes are reflected directly
 - Creates docker-compose.yml (php + nginx + azure-sql-edge)
 - Runs docker compose up -d automatically
 - Sets Laravel DB_* values in .env for SQL Edge container
@@ -96,3 +97,4 @@ Useful commands:
 
 - This app is for package development/testing only.
 - Do not commit the generated app folder unless needed.
+- When Composer path repository uses symlink mode, the package source path must also be mounted into the php container.

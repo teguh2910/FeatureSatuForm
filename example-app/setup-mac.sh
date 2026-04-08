@@ -33,6 +33,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 SCRIPT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PACKAGE_ROOT="$(cd "$SCRIPT_ROOT/.." && pwd)"
 COMPOSE_FILE="$SCRIPT_ROOT/docker-compose.yml"
 APP_PATH="$SCRIPT_ROOT/$APP_DIR"
 APP_COMPOSER_FILE="$APP_PATH/composer.json"
@@ -81,8 +82,10 @@ set_env_value() {
 
 update_app_composer_json() {
     local file_path="$1"
+    local package_root="$2"
     php -r '
         $path = $argv[1];
+        $packageRoot = $argv[2];
         $composerJson = json_decode(file_get_contents($path), true);
         if (!is_array($composerJson)) {
             fwrite(STDERR, "Failed to parse composer.json\n");
@@ -91,14 +94,14 @@ update_app_composer_json() {
 
         $composerJson["repositories"] = [[
             "type" => "path",
-            "url" => "../..",
-            "options" => ["symlink" => false],
+            "url" => $packageRoot,
+            "options" => ["symlink" => true],
         ]];
         $composerJson["minimum-stability"] = "dev";
         $composerJson["prefer-stable"] = true;
 
         file_put_contents($path, json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
-    ' "$file_path"
+    ' "$file_path" "$package_root"
 }
 
 ensure_sqlsrv_config() {
@@ -172,10 +175,11 @@ cat > "$COMPOSE_FILE" <<EOF
 services:
     php:
         build:
-            context: .
-            dockerfile: ./docker/php/Dockerfile
+            context: ./docker/php
+            dockerfile: Dockerfile
         volumes:
             - ./app:/var/www/html
+            - ${PACKAGE_ROOT}:${PACKAGE_ROOT}
         restart: unless-stopped
 
     nginx:
@@ -227,7 +231,7 @@ else
     exit 1
 fi
 
-update_app_composer_json "$APP_COMPOSER_FILE"
+update_app_composer_json "$APP_COMPOSER_FILE" "$PACKAGE_ROOT"
 
 if [[ -d "$APP_PATH/vendor/teguh/feature-satu-form" ]]; then
     rm -rf "$APP_PATH/vendor/teguh/feature-satu-form"

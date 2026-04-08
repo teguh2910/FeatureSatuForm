@@ -103,7 +103,7 @@
         </form>
 
         <div class="back">
-            <a href="{{ url('/') }}">Kembali ke Form User</a>
+            <a href="{{ url('/feature-satu-form') }}">Kembali ke Form User</a>
         </div>
     </section>
 </body>
