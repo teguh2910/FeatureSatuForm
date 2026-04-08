@@ -32,8 +32,8 @@ class AdminUserManagementController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:users,username'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'username' => ['required', 'string', 'max:255', 'unique:FORM.users,username'],
+            'email' => ['required', 'email', 'max:255', 'unique:FORM.users,email'],
             'department' => ['required', 'in:HR,FIN,IT,OPS'],
             'level' => ['required', 'in:' . implode(',', self::LEVELS)],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -64,8 +64,8 @@ class AdminUserManagementController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:users,username,' . $user->id],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'username' => ['required', 'string', 'max:255', 'unique:FORM.users,username,' . $user->id],
+            'email' => ['required', 'email', 'max:255', 'unique:FORM.users,email,' . $user->id],
             'department' => ['required', 'in:HR,FIN,IT,OPS'],
             'level' => ['required', 'in:' . implode(',', self::LEVELS)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],

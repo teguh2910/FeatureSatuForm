@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dependency_verifications', function (Blueprint $table): void {
+        Schema::create('FORM.dependency_verifications', function (Blueprint $table): void {
             $table->id();
             $table->string('tracking_id', 50)->unique();
-            $table->foreignId('form_template_id')->constrained('form_templates')->cascadeOnDelete();
-            $table->foreignId('dependency_form_template_id')->constrained('form_templates')->noActionOnDelete();
-            $table->foreignId('submission_id')->nullable()->constrained('submissions')->nullOnDelete();
+            $table->foreignId('form_template_id')->constrained('FORM.form_templates')->cascadeOnDelete();
+            $table->foreignId('dependency_form_template_id')->constrained('FORM.form_templates')->noActionOnDelete();
+            $table->foreignId('submission_id')->nullable()->constrained('FORM.submissions')->nullOnDelete();
             $table->string('form_code', 50);
             $table->timestamp('verified_at');
             $table->timestamps();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dependency_verifications');
+        Schema::dropIfExists('FORM.dependency_verifications');
     }
 };

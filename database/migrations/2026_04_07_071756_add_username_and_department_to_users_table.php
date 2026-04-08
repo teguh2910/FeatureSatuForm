@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('FORM.users', function (Blueprint $table) {
             $table->string('username')->nullable()->unique()->after('name');
             $table->enum('department', ['HR', 'FIN', 'IT', 'OPS'])->nullable()->after('email');
         });
@@ -22,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasColumn('users', 'username')) {
-            Schema::table('users', function (Blueprint $table) {
+        if (Schema::hasColumn('FORM.users', 'username')) {
+            Schema::table('FORM.users', function (Blueprint $table) {
                 try {
                     // SQL Server requires dropping the unique index before the column.
                     $table->dropUnique('users_username_unique');
@@ -32,13 +32,13 @@ return new class extends Migration
                 }
             });
 
-            Schema::table('users', function (Blueprint $table) {
+            Schema::table('FORM.users', function (Blueprint $table) {
                 $table->dropColumn('username');
             });
         }
 
-        if (Schema::hasColumn('users', 'department')) {
-            Schema::table('users', function (Blueprint $table) {
+        if (Schema::hasColumn('FORM.users', 'department')) {
+            Schema::table('FORM.users', function (Blueprint $table) {
                 $table->dropColumn('department');
             });
         }

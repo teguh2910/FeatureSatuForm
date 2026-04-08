@@ -9,6 +9,8 @@ class DependencyVerification extends Model
 {
     use HasFactory;
 
+    protected $table = 'FORM.dependency_verifications';
+
     protected $fillable = [
         'tracking_id',
         'form_template_id',

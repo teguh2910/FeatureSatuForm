@@ -9,6 +9,8 @@ class Submission extends Model
 {
     use HasFactory;
 
+    protected $table = 'FORM.submissions';
+
     protected $fillable = [
         'tracking_id',
         'template_id',

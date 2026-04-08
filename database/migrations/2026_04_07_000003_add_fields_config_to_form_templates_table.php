@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('form_templates', function (Blueprint $table): void {
+        Schema::table('FORM.form_templates', function (Blueprint $table): void {
             $table->json('fields_config')->nullable()->after('description');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('form_templates', function (Blueprint $table): void {
+        Schema::table('FORM.form_templates', function (Blueprint $table): void {
             $table->dropColumn('fields_config');
         });
     }

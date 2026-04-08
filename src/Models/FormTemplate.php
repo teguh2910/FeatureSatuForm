@@ -9,6 +9,8 @@ class FormTemplate extends Model
 {
     use HasFactory;
 
+    protected $table = 'FORM.form_templates';
+
     protected $fillable = [
         'form_code',
         'name',

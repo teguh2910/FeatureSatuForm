@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('form_templates', function (Blueprint $table): void {
+        Schema::table('FORM.form_templates', function (Blueprint $table): void {
             $table->json('approval_flow_config')->nullable()->after('fields_config');
         });
 
-        Schema::table('submissions', function (Blueprint $table): void {
+        Schema::table('FORM.submissions', function (Blueprint $table): void {
             $table->unsignedInteger('current_approval_step')->default(0)->after('status');
             $table->json('approval_flow_snapshot')->nullable()->after('current_approval_step');
             $table->json('approval_history')->nullable()->after('approval_flow_snapshot');
@@ -27,11 +27,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('form_templates', function (Blueprint $table): void {
+        Schema::table('FORM.form_templates', function (Blueprint $table): void {
             $table->dropColumn('approval_flow_config');
         });
 
-        Schema::table('submissions', function (Blueprint $table): void {
+        Schema::table('FORM.submissions', function (Blueprint $table): void {
             $table->dropColumn(['current_approval_step', 'approval_flow_snapshot', 'approval_history']);
         });
     }

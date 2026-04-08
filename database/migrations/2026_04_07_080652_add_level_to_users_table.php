@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table): void {
+        Schema::table('FORM.users', function (Blueprint $table): void {
             $table->string('level', 30)->default('staff')->after('department');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table): void {
+        Schema::table('FORM.users', function (Blueprint $table): void {
             $table->dropColumn('level');
         });
     }

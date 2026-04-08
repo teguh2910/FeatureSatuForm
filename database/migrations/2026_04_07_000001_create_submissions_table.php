@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('submissions', function (Blueprint $table) {
+        Schema::create('FORM.submissions', function (Blueprint $table) {
             $table->id();
             $table->string('tracking_id')->unique();
             $table->string('employee_name');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('submissions');
+        Schema::dropIfExists('FORM.submissions');
     }
 };
