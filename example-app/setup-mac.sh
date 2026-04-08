@@ -138,6 +138,7 @@ RUN apt-get update \
         && pecl install sqlsrv-5.12.0 pdo_sqlsrv-5.12.0 \
         && docker-php-ext-enable sqlsrv pdo_sqlsrv \
         && docker-php-ext-install zip \
+        && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
         && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html

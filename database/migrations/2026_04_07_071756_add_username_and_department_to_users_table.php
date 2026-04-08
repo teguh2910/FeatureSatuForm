@@ -22,8 +22,25 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['username', 'department']);
-        });
+        if (Schema::hasColumn('users', 'username')) {
+            Schema::table('users', function (Blueprint $table) {
+                try {
+                    // SQL Server requires dropping the unique index before the column.
+                    $table->dropUnique('users_username_unique');
+                } catch (\Throwable $e) {
+                    // Ignore when index is already missing.
+                }
+            });
+
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn('username');
+            });
+        }
+
+        if (Schema::hasColumn('users', 'department')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn('department');
+            });
+        }
     }
 };

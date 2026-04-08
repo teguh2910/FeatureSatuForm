@@ -3,30 +3,20 @@
 namespace Teguh\FeatureSatuForm;
 
 use Illuminate\Support\ServiceProvider;
-use Teguh\FeatureSatuForm\Middleware\AdminAuthenticated;
-use Teguh\FeatureSatuForm\Middleware\EnsureSuperAdmin;
+use Illuminate\Routing\Router; // Tambahkan ini
 
 class FeatureSatuFormServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     * Tempat untuk binding class ke container atau merge config.
-     */
     public function register()
     {
-        // Contoh: Menggabungkan config jika ada file config/feature-x.php di submodule
-        // $this->mergeConfigFrom(__DIR__.'/../config/feature-x.php', 'feature-x');
+        // Tempat binding container jika diperlukan
     }
 
-    /**
-     * Bootstrap services.
-     * Tempat untuk loading routes, views, migrations, dll.
-     */
-    public function boot()
+    public function boot(Router $router)
     {
-        $router = $this->app['router'];
-        $router->aliasMiddleware('admin.auth', AdminAuthenticated::class);
-        $router->aliasMiddleware('admin.super', EnsureSuperAdmin::class);
+        // Register Middleware
+        $router->aliasMiddleware('admin.auth', Middleware\AdminAuthenticated::class);
+        $router->aliasMiddleware('admin.super', Middleware\EnsureSuperAdmin::class);
 
         // 1. Load Routes
         if (file_exists(__DIR__.'/../routes/web.php')) {
@@ -34,27 +24,28 @@ class FeatureSatuFormServiceProvider extends ServiceProvider
         }
 
         // 2. Load Views
-        // Cara panggil di Controller: return view('feature-satu-form::nama-file');
         if (is_dir(__DIR__.'/../resources/views')) {
             $this->loadViewsFrom(__DIR__.'/../resources/views', 'feature-satu-form');
         }
 
-        // 3. Load Migrations (Otomatis jalan saat php artisan migrate)
+        // 3. Load Migrations
         if (is_dir(__DIR__.'/../database/migrations')) {
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         }
 
-        // 4. Assets Publishing (Optional)
-        // Agar file JS/CSS bisa di-publish ke folder public utama
+        // 4. Publishing (Hanya jalan di CLI)
         if ($this->app->runningInConsole()) {
+            // Publish Migrations
             $this->publishes([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
-            ], 'feature-satu-form-migrations');
-
+            ], 'feature-satu-form-migrations');            
+            
+            // Publish Seeders (User harus menjalankan artisan db:seed manual nanti)
             $this->publishes([
                 __DIR__.'/../database/seeders' => database_path('seeders'),
             ], 'feature-satu-form-seeders');
 
+            // Publish Assets
             $this->publishes([
                 __DIR__.'/../resources/assets' => public_path('vendor/feature-satu-form'),
             ], 'feature-satu-form-assets');
