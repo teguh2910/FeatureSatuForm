@@ -1,295 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SATU FORM - @yield('title')</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #001a72;
-            --accent: #0038e0;
-            --light: #f0f2f8;
-            --text: #334155;
-            --danger: #dc2626;
-            --success: #16a34a;
-            --border: #d7deee;
-            
+            --fs-primary: #001a72;
+            --fs-accent: #0038e0;
+            --fs-light: #f0f2f8;
+            --fs-text: #334155;
+            --fs-danger: #dc2626;
+            --fs-success: #16a34a;
+            --fs-border: #d7deee;
         }
 
-        * { box-sizing: border-box; }
         body {
-            margin: 0;
             font-family: "Segoe UI", "Helvetica Neue", sans-serif;
-            color: var(--text);
-            background: var(--light);
-        }
-
-        .hero {
+            color: var(--fs-text);
+            background: var(--fs-light);
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+
+        .brand-bar {
+            background: linear-gradient(135deg, var(--fs-primary), var(--fs-accent));
+            padding: 12px 0;
+        }
+
+        .brand-bar .brand {
             color: #fff;
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .panel {
-            width: 100%;
-            max-width: 760px;
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 10px 30px rgba(0, 26, 114, 0.12);
-            padding: 24px;
-        }
-
-        h1, h2, h3, p { margin: 0; }
-        .headline { color: var(--primary); font-size: 24px; margin-bottom: 8px; }
-        .sub { color: #64748b; margin-bottom: 20px; font-size: 14px; }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        table thead th {
-            background: var(--primary);
-            color: #fff;
-            padding: 12px;
-            text-align: left;
-            font-size: 12px;
-            text-transform: uppercase;
-        }
-
-        table tbody td {
-            padding: 12px;
-            color : black;
-            border-bottom: 1px solid var(--border);
-            font-size: 13px;
-        }
-
-        table tbody tr:hover {
-            background: #f8f9fc;
-        }
-
-        table tbody tr:last-child td {
-            border-bottom: 0;
-        }
-
-        .form-name {
             font-weight: 700;
-            color: var(--primary);
-        }
-
-        .form-desc {
-            font-size: 12px;
-            color: #64748b;
-            margin-top: 2px;
-        }
-
-        .btn {
-            border: 0;
-            border-radius: 8px;
-            padding: 10px 16px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 14px;
+            font-size: 1.1rem;
             text-decoration: none;
-            display: inline-block;
         }
 
-        .btn-primary { background: var(--primary); color: #fff; }
-        .btn-outline { border: 2px solid var(--primary); background: transparent; color: var(--primary); }
-
-        .form-group {
-            margin-bottom: 14px;
+        .public-panel {
+            max-width: 860px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 26, 114, 0.1);
+            overflow: hidden;
         }
 
-        .form-group label {
-            display: block;
-            color:black;
-            font-size: 13px;
-            font-weight: 600;
+        .public-panel-header {
+            background: linear-gradient(135deg, var(--fs-primary), var(--fs-accent));
+            color: #fff;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .public-panel-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
             margin-bottom: 6px;
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            border: 1px solid var(--border);
+        .public-panel-body {
+            padding: 32px;
+        }
+
+        .btn-primary {
+            background-color: var(--fs-primary);
+            border-color: var(--fs-primary);
             border-radius: 8px;
-            padding: 10px 12px;
-            font-family: inherit;
-            font-size: 14px;
-        }
-
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .top-links {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .top-links a {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 13px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
             font-weight: 600;
         }
 
-        .badge-success { background: #dcfce7; color: var(--success); }
-        .badge-warning { background: #fef3c7; color: #92400e; }
-        .badge-info { background: #dbeafe; color: var(--accent); }
-
-        .card {
-            margin-top: 16px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 14px;
-            background: #fafbff;
+        .btn-primary:hover {
+            background-color: var(--fs-accent);
+            border-color: var(--fs-accent);
+            color: #fff;
         }
 
-        .success-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            background: #dcfce7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 36px;
-        }
-
-        .tracking-id {
-            padding: 12px;
-            background: var(--light);
+        .btn-outline-primary {
+            border-color: var(--fs-primary);
+            color: var(--fs-primary);
             border-radius: 8px;
-            font-family: monospace;
-            font-weight: 700;
-            color: var(--primary);
-            text-align: center;
-            margin: 12px 0;
+            font-weight: 600;
         }
 
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
+        .btn-outline-primary:hover {
+            background-color: var(--fs-primary);
+            border-color: var(--fs-primary);
+            color: #fff;
         }
 
-        @media (max-width: 768px) {
-            .panel { padding: 18px; }
-            .grid { grid-template-columns: 1fr; }
-        }
-    </style>
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <style>
-        /* DataTables Customization to match design */
-        .dataTables_wrapper {
-            color: var(--text);
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border-color: var(--fs-border);
+            padding: 10px 14px;
+            font-size: 14px;
         }
 
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--fs-accent);
+            box-shadow: 0 0 0 0.2rem rgba(0, 56, 224, 0.1);
+        }
+
+        .badge-success { background-color: #dcfce7; color: var(--fs-success); }
+        .badge-warning { background-color: #fef3c7; color: #92400e; }
+        .badge-info { background-color: #dbeafe; color: var(--fs-accent); }
+        .badge-secondary { background-color: #e2e8f0; color: var(--fs-text); }
+
+        /* DataTables Bootstrap 5 */
         .dataTables_wrapper .dataTables_length,
         .dataTables_wrapper .dataTables_filter {
             margin-bottom: 16px;
-            color: var(--text);
         }
 
         .dataTables_wrapper .dataTables_length label,
         .dataTables_wrapper .dataTables_filter label {
-            color: var(--text);
+            color: var(--fs-text);
             font-weight: 600;
             font-size: 13px;
         }
 
         .dataTables_wrapper .dataTables_filter input {
-            border: 1px solid var(--border);
+            border: 1px solid var(--fs-border);
             border-radius: 6px;
             padding: 6px 10px;
             font-size: 13px;
-            color: var(--text);
-        }
-
-        .dataTables_wrapper .dataTables_length select {
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 4px 8px;
-            font-size: 13px;
-            color: var(--text);
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             padding: 4px 8px;
             margin: 0 2px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--fs-border);
             border-radius: 6px;
             cursor: pointer;
             font-size: 12px;
-            color: var(--text);
+            color: var(--fs-text);
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: var(--light);
-            border-color: var(--primary);
+            background: var(--fs-light);
+            border-color: var(--fs-primary);
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
+            background: var(--fs-primary);
+            color: #fff !important;
+            border-color: var(--fs-primary);
         }
 
         .dataTables_wrapper .dataTables_info {
             font-size: 12px;
             color: #64748b;
         }
+
+        @media (max-width: 768px) {
+            .public-panel { margin: 16px; }
+            .public-panel-body { padding: 20px; }
+            .public-panel-header { padding: 24px 20px; }
+        }
     </style>
+
+    @stack('css')
 </head>
 <body>
-    <main class="hero">
-        <section class="panel">
+
+    <!-- Brand Bar -->
+    <div class="brand-bar">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="{{ route('public.forms.index') }}" class="brand d-flex align-items-center gap-2">
+                    <i class="ri-file-list-3-line"></i>
+                    SATU FORM
+                </a>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="{{ route('public.forms.track') }}" class="text-white text-decoration-none small">Tracking</a>
+                    @if(session('public_auth'))
+                        <span class="text-white-50 small">{{ session('public_name') }} ({{ strtoupper(session('public_level', 'guest')) }})</span>
+                        <form method="POST" action="{{ route('public.logout') }}" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-light text-primary fw-semibold">Logout</button>
+                        </form>
+                    @else
+                        <a href="{{ route('public.login') }}" class="btn btn-sm btn-light text-primary fw-semibold">Login</a>
+                    @endif
+                    <a href="{{ route('admin.login') }}" class="text-white text-decoration-none small">Admin</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Panel -->
+    <div class="public-panel">
+        <div class="public-panel-header">
+            <h1>@yield('panel_title', 'SATU Form')</h1>
+            @hasSection('panel_subtitle')
+                <p class="mb-0 opacity-75">@yield('panel_subtitle')</p>
+            @endif
+        </div>
+        <div class="public-panel-body">
             @yield('content')
-        </section>
-    </main>
-    <!-- jQuery (required for DataTables) -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css"/>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
     <script>
+        $.ajaxSetup({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+        });
+
         $(document).ready(function() {
-            // Initialize DataTable if exists
             if ($('#formsTable').length) {
                 $('#formsTable').DataTable({
                     "pageLength": 10,
@@ -298,16 +223,13 @@
                         "search": "Search:",
                         "lengthMenu": "Show _MENU_ entries",
                         "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                        "paginate": {
-                            "first": "First",
-                            "last": "Last",
-                            "next": "Next",
-                            "previous": "Previous"
-                        }
+                        "paginate": { "first": "First", "last": "Last", "next": "Next", "previous": "Previous" }
                     }
                 });
             }
         });
     </script>
+
+    @stack('scripts')
 </body>
 </html>
